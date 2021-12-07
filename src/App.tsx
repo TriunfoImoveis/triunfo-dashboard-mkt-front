@@ -39,11 +39,17 @@ interface ResponseData {
 
 function App() {
   const [month, setMonth] = useState(new Date().getMonth() + 1)
-  const { data } = useFetch<ResponseData>(`/dashboard?month=${month}`);
+  const [city, setCity] = useState('slz');
+  const { data } = useFetch<ResponseData>(`/dashboard?month=${month}&city=${city}`);
 
   const handleChange = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
     const {value} = event.target;
     setMonth(Number(value));
+  }, [])
+
+  const handleChangeCity = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
+    const {value} = event.target;
+    setCity(value);
   }, [])
   return (
     <Container>
@@ -63,6 +69,11 @@ function App() {
           <option value={10}>Outubro</option>
           <option value={11}>Novembro</option>
           <option value={12}>Dezembro</option>
+        </select>
+        <select defaultValue={city} onChange={handleChangeCity}>
+          <option value="slz">São Luís</option>
+          <option value="frlz">Fortaleza</option>
+          <option value="trz">Teresina</option>
         </select>
       </Header>
       <Content>
